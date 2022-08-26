@@ -35,30 +35,35 @@ function runSolutions(sourceCount) {
     } catch (e) {
       reject(e);
     }
-  }).then(() => {
-    return new Promise((resolve, reject) => {
-      /**
-       * Challenge Number 2!
-       *
-       * Similar to Challenge Number 1, except now you should assume that a LogSource
-       * has only one method: popAsync() which returns a promise that resolves with a LogEntry,
-       * or boolean false once the LogSource has ended.
-       *
-       * Your job is simple: print the sorted merge of all LogEntries across `n` LogSources.
-       *
-       * Call `printer.print(logEntry)` to print each entry of the merged output as they are ready.
-       * This function will ensure that what you print is in fact in chronological order.
-       * Call 'printer.done()' at the end to get a few stats on your solution!
-       */
-      const asyncLogSources = [];
-      for (let i = 0; i < sourceCount; i++) {
-        asyncLogSources.push(new LogSource());
-      }
-      require("./solution/async-sorted-merge")(asyncLogSources, new Printer())
-        .then(resolve)
-        .catch(reject);
+  })
+    .then(() => {
+      return new Promise((resolve, reject) => {
+        /**
+         * Challenge Number 2!
+         *
+         * Similar to Challenge Number 1, except now you should assume that a LogSource
+         * has only one method: popAsync() which returns a promise that resolves with a LogEntry,
+         * or boolean false once the LogSource has ended.
+         *
+         * Your job is simple: print the sorted merge of all LogEntries across `n` LogSources.
+         *
+         * Call `printer.print(logEntry)` to print each entry of the merged output as they are ready.
+         * This function will ensure that what you print is in fact in chronological order.
+         * Call 'printer.done()' at the end to get a few stats on your solution!
+         */
+        const asyncLogSources = [];
+        for (let i = 0; i < sourceCount; i++) {
+          asyncLogSources.push(new LogSource());
+        }
+        require("./solution/async-sorted-merge")(asyncLogSources, new Printer())
+          .then(resolve)
+          .catch(reject);
+      });
+    })
+    .catch((err) => {
+      console.log("Error in async side");
+      console.error(err);
     });
-  });
 }
 
 // Adjust this input to see how your solutions perform under various loads.
